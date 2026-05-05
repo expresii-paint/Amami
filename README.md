@@ -1,4 +1,4 @@
-#  <img src="./AmamiPuffer.svg" align="middle" width="6%"> Amami Inker
+#  <img src="./AmamiPuffer.svg" align="middle" width="8%"> Amami Inker
 
 Amami Inker is a web app that converts SVG curves to Expresii Paint strokes. It can export to an .XST (Expresii Stroke) file, or send the generated stroke commands directly to Expresii Paint app.
 
