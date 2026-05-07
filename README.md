@@ -20,7 +20,7 @@ In the Amami Inker page, you can press 'Send' to send the generated commands to 
 
 <img src="./SendCommands.gif" width="75%">
 
-The sample horse SVG is from Clipasso (https://clipasso.github.io/clipasso).
+The sample horse SVG is from Clipasso (https://clipasso.github.io/clipasso). See a few sample rendered horses in [our blog entry](https://www.expresii.com/blog/stroke-api-server-amami-inker-web-app).
 
 ## Connecting with AI agent
 Teaching a computer to draw objects as simple abstract strokes is not easy. Ever since the Clipasso work came out in 2022, we would like to combine this with Expresii. Down the road, we hope to see AI agents draw/paint things via this interface. A [stroke file format description](./ExpresiiStrokeFileFormatDescription.txt) is put online. You can start creating skill files from the description for AI agents.
