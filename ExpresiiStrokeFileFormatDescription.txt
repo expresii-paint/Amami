@@ -87,3 +87,12 @@ l 8 255 255 255
 #
 # 'i' for Brush Scratchiness. Range [0.0 .. 1.0] Format:
 i   0.5
+#
+# 'L' for selecting the active Layer by index. Format:
+# L layer_index
+# layer_index 0 is the TOPMOST layer; 1 is the layer directly below it; 2 the
+# one below that, and so on (top-down). Indices < 0 or > (layer_count - 1) are
+# IGNORED (no-op). Select a layer before a 'c'/'B'/'w'/'i'/'s' sequence to paint
+# on it.
+# Example:
+L 0
