@@ -188,8 +188,8 @@ select option.sep{color:var(--text3);font-style:italic;pointer-events:none}
 <div class="ctrl-section"><span class="ctrl-label">Brush Tilt</span><div class="tilt-control"><div class="tilt-circle" id="tilt-circle"><svg id="tilt-svg"></svg></div><div class="tilt-info">
 
 
-<div class="tilt-val-row"><span class="field-label">Tilt-Y</span><input type="number" class="tilt-val" id="tilt-y-val" value="0.0" step="0.5" min="-90" max="90"></div>
-<div class="tilt-val-row"><span class="field-label">Tilt-X</span><input type="number" class="tilt-val" id="tilt-x-val" value="0.0" step="0.5" min="-90" max="90"></div>
+<div class="tilt-val-row"><span class="field-label">Tilt-Y</span><input type="number" class="tilt-val" id="tilt-y-val" value="0.0" step="0.5" min="-75" max="75"></div>
+<div class="tilt-val-row"><span class="field-label">Tilt-X</span><input type="number" class="tilt-val" id="tilt-x-val" value="0.0" step="0.5" min="-75" max="75"></div>
 
 
 <label class="tilt-toggle"><input type="checkbox" id="align-tilt"><span>Align tilt to stroke</span></label><div class="tilt-presets"><button class="tilt-preset-btn active" data-ty="0" data-tx="0">Vertical</button><button class="tilt-preset-btn" data-ty="-30" data-tx="-20">Lower-Right</button><button class="tilt-preset-btn" data-ty="-30" data-tx="20">Lower-Left</button></div><button class="tilt-reset" id="tilt-reset"><i class="fa-solid fa-rotate-left"></i> Reset</button><p class="tilt-hint">Drag dot to set tilt. Double-click to reset.</p></div></div></div>
@@ -214,7 +214,7 @@ select option.sep{color:var(--text3);font-style:italic;pointer-events:none}
 <script>
 var STOR='amami_',GPFX='amami_grad_',PPFIX='amami_pprof_',SPFIX='amami_sprof_',WPFIX='amami_wprof_';
 var WETNESS_MAP=[0.01,0.03,0.04,0.06,0.08,0.09,0.10,0.15,0.19,0.40,0.65,1.00];
-var tiltY=0,tiltX=0,alignTiltToStroke=true,TILT_MAX=90;
+var tiltY=0,tiltX=0,alignTiltToStroke=true,TILT_MAX=75;
 var wetnessPoints=[{t:0,w:5},{t:1,w:5}],WPRESETS=[{name:'Level 5 — Medium',pts:[{t:0,w:5},{t:1,w:5}]},{name:'Level 1 — Driest',pts:[{t:0,w:1},{t:1,w:1}]},{name:'Level 12 — Wettest',pts:[{t:0,w:12},{t:1,w:12}]},{name:'Dry to Wet',pts:[{t:0,w:1},{t:1,w:12}]},{name:'Wet to Dry',pts:[{t:0,w:12},{t:1,w:1}]},{name:'Wet Middle',pts:[{t:0,w:1},{t:0.3,w:1},{t:0.5,w:12},{t:0.7,w:1},{t:1,w:1}]}],selWI=-1,dragW=false;
 var pressurePoints=[{"t":0,"p":0.1},{"t":0.015590200445434299,"p":0.56787109375},{"t":0.8116883116883117,"p":0.739453125},{"t":1,"p":0.1},{"t":0.17207792207792208,"p":0.739453125},{"t":0.9866369710467706,"p":0.59912109375}],
 
