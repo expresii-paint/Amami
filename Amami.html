@@ -111,13 +111,11 @@ textarea{resize:vertical;font-family:'Courier New',monospace;font-size:.9rem;lin
 .preset-name-row button{padding:.25rem .6rem;font-size:.85rem;border:1px solid var(--border);border-radius:5px;background:var(--bg2);color:var(--text2);cursor:pointer;font-family:inherit;transition:all .25s}
 .preset-name-row button:hover{border-color:var(--accent2);color:var(--accent2)}
 .output-section{margin-top:1.5rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:all .4s;max-height:0;opacity:0}
-.output-section.show{max-height:800px;opacity:1}
+.output-section.show{max-height:none;opacity:1}
 .output-head{display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem;border-bottom:1px solid var(--border)}.output-head .ctrl-label{margin-bottom:0}
 .output-actions{display:flex;gap:.4rem}
-.out-btn{padding:.3rem .65rem;font-size:.88rem;font-weight:500;border:1px solid var(--border);border-radius:5px;background:var(--bg2);color:var(--text2);cursor:pointer;font-family:inherit;transition:all .25s;text-decoration:none;display:flex;align-items:center;gap:.3rem}
-.out-btn:hover{border-color:var(--accent2);color:var(--accent2)}
-.out-btn.download{background:var(--accent);border-color:var(--accent);color:#fff}
-.out-btn.download:hover{background:var(--accent2);border-color:var(--accent2)}
+.out-btn{padding:.3rem .75rem;font-size:.88rem;font-weight:600;border:1px solid var(--accent);border-radius:5px;background:var(--accent);color:#fff;cursor:pointer;font-family:inherit;transition:all .25s;text-decoration:none;display:flex;align-items:center;gap:.35rem;white-space:nowrap}
+.out-btn:hover{background:var(--accent2);border-color:var(--accent2);color:#fff;transform:translateY(-1px)}.out-btn:active{transform:translateY(0)}
 .out-btn:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
 .send-bar{display:flex;align-items:center;gap:.55rem;padding:.55rem 1rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
 .send-label{font-size:.88rem;font-weight:600;color:var(--text2);white-space:nowrap;display:flex;align-items:center;gap:.35rem}
@@ -158,6 +156,17 @@ select option.sep{color:var(--text3);font-style:italic;pointer-events:none}
 @media(max-width:820px){.main{grid-template-columns:1fr}.preview-wrap{height:300px}.app{padding:1rem}.tab-file-info .fb-name{max-width:90px}.send-bar{gap:.4rem}.send-addr-wrap{flex:1 1 160px}.graph-layout{flex-direction:column}.graph-side{flex:none;width:100%}.graph-canvas{height:130px}}
 @media(max-width:480px){.header{flex-wrap:wrap;gap:.5rem}.preview-wrap{height:240px}.ctrl-row{flex-direction:column}.tab-file-info{padding:0 .4rem;margin-right:.3rem}.tab-file-info .fb-name{max-width:60px}.send-bar{flex-direction:column;align-items:stretch}.send-addr-wrap{flex:1 1 auto}.send-btn{justify-content:center}.graph-canvas{height:110px}.process-btn{padding:.7rem 1.5rem;font-size:.88rem;width:100%}.tilt-control{flex-direction:column;align-items:stretch}.tilt-circle{flex:none;align-self:center;width:120px;height:120px}}
 .keyboard-nav *:focus{outline:2px solid var(--accent2);outline-offset:2px}*:focus{outline:none}
+.render-result{border-top:1px solid var(--border);padding:.7rem 1rem 1rem}
+.render-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;flex-wrap:wrap;gap:.4rem}
+.render-status{font-size:.88rem;color:var(--text2);display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+#render-image{max-width:100%;border-radius:8px;background:#fff;display:none;box-shadow:0 2px 8px var(--shadow);border:1px solid var(--border)}
+.rspinner{display:inline-block;width:13px;height:13px;border:2px solid var(--border2);border-top:2px solid var(--accent2);border-radius:50%;animation:rspin .8s linear infinite}
+@keyframes rspin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.conn-status{font-size:.85rem;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:.35rem}
+.conn-status.ok{color:var(--success)}.conn-status.err{color:var(--error)}.conn-status.wait{color:var(--text3)}
+.srv-info{display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap;margin-left:auto;font-size:.82rem;color:var(--text3)}
+.srv-info span i{color:var(--accent2);margin-right:.3rem}
+.srv-info b{color:var(--text2);font-weight:500}
 </style>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
@@ -193,10 +202,13 @@ select option.sep{color:var(--text3);font-style:italic;pointer-events:none}
 <div class="process-row"><button class="process-btn" id="process-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Stroke Commands</button></div>
 </div>
 <section class="output-section" id="output-section">
-<div class="output-head"><span class="ctrl-label">Generated XST Content</span><div class="output-actions"><button class="out-btn" id="copy-btn"><i class="fa-solid fa-copy"></i> Copy</button><a class="out-btn download" id="download-link" download="output.xst" href="#"><i class="fa-solid fa-download"></i> Download .XST</a></div></div>
-<div class="send-bar"><span class="send-label"><i class="fa-solid fa-paper-plane"></i> Send to Expresii</span><div class="send-addr-wrap"><input type="text" id="server-addr" value="localhost:9000" placeholder="IP:Port" spellcheck="false" autocomplete="off"></div><button class="send-btn" id="send-btn"><i class="fa-solid fa-arrow-right"></i> Send</button><span class="send-status" id="send-status"></span></div>
-<p class="edit-hint"><i class="fa-solid fa-pen-to-square" style="margin-right:.3rem"></i>Editable — modify the commands below before downloading or sending</p>
+<div class="output-head"><span class="ctrl-label">Generated Commands</span><span class="edit-hint" style="margin:0"><i class="fa-solid fa-pen-to-square" style="margin-right:.3rem"></i>Editable — modify the commands below before saving or sending</span></div>
 <textarea id="output-text" placeholder="Output will appear here..."></textarea>
+<div class="send-bar"><a class="out-btn download" id="download-link" download="output.xst" href="#"><i class="fa-solid fa-download"></i> Save .XST</a><button class="out-btn" id="copy-btn"><i class="fa-solid fa-copy"></i> Copy</button><button class="send-btn" id="send-btn"><i class="fa-solid fa-paper-plane"></i> Send to Server</button><div class="send-addr-wrap"><input type="text" id="server-addr" value="localhost:9000" placeholder="IP:Port" spellcheck="false" autocomplete="off"></div><span class="conn-status wait" id="conn-status"><span class="rspinner"></span> Connecting...</span><span class="send-status" id="send-status"></span><span class="srv-info" id="srv-info" style="display:none"><span id="si-ver"><i class="fa-solid fa-paintbrush"></i><b></b></span><span id="si-cpu"><i class="fa-solid fa-microchip"></i><b></b></span><span id="si-gpu"><i class="fa-solid fa-display"></i><b></b></span><span id="si-ram"><i class="fa-solid fa-memory"></i><b></b></span></span></div>
+<div class="render-result" id="render-result" style="display:none">
+<div class="render-head"><span class="ctrl-label"><i class="fa-solid fa-image" style="margin-right:.3rem;color:var(--accent2)"></i>Rendered Paper</span><span style="display:flex;align-items:center;gap:.9rem;flex-wrap:wrap"><span class="render-status" id="sent-time"></span><span class="render-status" id="render-status"></span></span></div>
+<img id="render-image" alt="Rendered digital paper output" />
+</div>
 </section>
 </div>
 <script>
@@ -338,7 +350,56 @@ function genXST(){if(!parsedStrokes.length){toast('No strokes to process','error
  $('output-text').addEventListener('input',function(){if(this.value.length>0)setDL(this.value)});
  $('copy-btn').onclick=function(){var t=$('output-text').value;if(!t)return;navigator.clipboard.writeText(t).then(function(){toast('Copied to clipboard','success')},function(){toast('Copy failed','error')})};
 function setSS(m,c){var e=$('send-status');e.textContent=m;e.className='send-status'+(c?' '+c:'')}
-function sendToEx(){var addr=$('server-addr').value.trim();if(!addr){toast('Enter server address','error');return}if(addr.indexOf(':')===-1)addr+=':9000';var text=$('output-text').value.trim();if(!text){toast('No commands to send','error');return}var btn=$('send-btn');btn.disabled=true;btn.classList.add('sending');btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Sending';setSS('Sending to '+addr+'...','wait');var ifn='_amami_tx_'+Date.now(),ifr=document.createElement('iframe');ifr.name=ifn;ifr.style.cssText='position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;border:none;opacity:0;pointer-events:none';document.body.appendChild(ifr);var frm=document.createElement('form');frm.action='http://'+addr+'/confirm-ajax';frm.method='POST';frm.target=ifn;frm.enctype='multipart/form-data';var inp=document.createElement('input');inp.type='hidden';inp.name='message';inp.value=text;frm.appendChild(inp);document.body.appendChild(frm);var done=false;var clean=function(){if(done)return;done=true;clearTimeout(tid);btn.disabled=false;btn.classList.remove('sending');btn.innerHTML='<i class="fa-solid fa-arrow-right"></i> Send';setTimeout(function(){if(frm.parentNode)frm.parentNode.removeChild(frm);if(ifr.parentNode)ifr.parentNode.removeChild(ifr)},200)};ifr.addEventListener('load',function(){setTimeout(function(){setSS('Sent \u2713','ok');toast('Commands sent to '+addr,'success');setTimeout(function(){setSS('')},5000);clean()},100)});var tid=setTimeout(function(){setSS('Error: No response','err');toast('Send failed — check address & network','error');clean()},10000);frm.submit()}
+function setRS(html){$('render-status').innerHTML=html}
+function stampSent(){$('sent-time').innerHTML='<i class="fa-solid fa-paper-plane" style="color:var(--accent2)"></i> Sent at '+new Date().toLocaleTimeString()}
+/* --- Server connection status + system info (mirrors Expresii Command Console /info) --- */
+function shortenCpu(s){return s?s.replace(/\s+(w\/|with|@|Graphics|\d+-?Core).*/i,'').trim():''}
+function shortenGpu(s){return s?s.replace(/\bGeForce\s+/gi,'').replace(/(\b\d{4}[^\s]*)\s+Laptop\s+GPU/i,'$1m').replace(/\s+Graphics/gi,'').replace(/\s+/g,' ').trim():''}
+function srvAddr(){var a=$('server-addr').value.trim();if(a&&a.indexOf(':')===-1)a+=':9000';return a}
+function infoBase(){var a=srvAddr();return(location.host&&a===location.host)?'':'http://'+a}
+function setConn(state,msg){var e=$('conn-status');e.className='conn-status '+state;e.innerHTML=msg}
+function loadServerInfo(){var a=srvAddr();if(!a){setConn('err','<i class="fa-solid fa-circle-xmark"></i> No server address');$('srv-info').style.display='none';return}
+fetch(infoBase()+'/info').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(d){
+setConn('ok','<i class="fa-solid fa-circle-check"></i> Connected');
+$('si-ver').querySelector('b').textContent='Expresii '+(d.version||'v?.?.?');
+$('si-cpu').querySelector('b').textContent=shortenCpu(d.cpu)||'Unknown CPU';
+$('si-gpu').querySelector('b').textContent=shortenGpu(d.gpu)||'Unknown GPU';
+$('si-ram').querySelector('b').textContent=(d.ram||'?')+' RAM';
+$('srv-info').style.display='flex'}).catch(function(e){console.error('Server info failed',e);
+setConn('err','<i class="fa-solid fa-triangle-exclamation"></i> Unable to reach server');$('srv-info').style.display='none'})}
+var infoDebounce;function pingServer(){setConn('wait','<span class="rspinner"></span> Connecting...');$('srv-info').style.display='none';loadServerInfo()}
+$('server-addr').addEventListener('input',function(){clearTimeout(infoDebounce);infoDebounce=setTimeout(pingServer,600)});
+setInterval(loadServerInfo,15000);
+/* --- Send with client-side queue + server polling (mirrors Expresii Command Console) --- */
+var isRendering=false,commandQueue=[],currentRequestId=null,pollIntervalId=null,currentAddr='';
+function updateSendBtn(){var btn=$('send-btn');if(isRendering){var q=commandQueue.length;btn.classList.add('sending');btn.disabled=true;btn.innerHTML=q>0?'<i class="fa-solid fa-hourglass-half"></i> Rendering ('+q+' queued)':'<span class="rspinner"></span> Rendering';}else{btn.classList.remove('sending');btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Send to Server'}}
+function sendToEx(){var addr=$('server-addr').value.trim();if(!addr){toast('Enter server address','error');return}if(addr.indexOf(':')===-1)addr+=':9000';var text=$('output-text').value.trim();if(!text){toast('No commands to send','error');return}currentAddr=addr;commandQueue.push(text);updateSendBtn();processQueue()}
+function processQueue(){if(isRendering||!commandQueue.length)return;isRendering=true;var text=commandQueue.shift();updateSendBtn();if(pollIntervalId){clearInterval(pollIntervalId);pollIntervalId=null}currentRequestId=null;var img=$('render-image');img.style.display='none';img.src='';$('render-result').style.display='block';$('sent-time').innerHTML='';setRS('<i class="fa-solid fa-cloud-arrow-up"></i> Sending to server...');setSS('Sending to '+currentAddr+'...','wait');
+var fd=new FormData();fd.append('message',text);fd.append('maxWidth','800');fd.append('maxHeight','600');
+fetch(apiBase()+'/confirm-ajax',{method:'POST',body:fd}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(data){currentRequestId=data.requestId;stampSent();setSS('Sent \u2713','ok');pollForResult();pollIntervalId=setInterval(pollForResult,900)}).catch(function(err){console.error(err);
+if(err instanceof TypeError){/* network/CORS blocked \u2014 fall back to iframe form post like the original Amami */iframeSend(text);return}
+setRS('<i class="fa-solid fa-triangle-exclamation" style="color:var(--error)"></i> Error: '+err.message);setSS('Error: '+err.message,'err');toast('Send failed — check address & network','error');finishJob()})}
+function finishJob(){isRendering=false;updateSendBtn();processQueue()}
+function apiBase(){ /* same-origin => relative URLs like the reference console; else absolute */ return (location.host&&currentAddr===location.host)?'':'http://'+currentAddr}
+function iframeSend(text){ /* CORS-free fallback: form POST via hidden iframe (fire-and-forget) */
+var ifn='_amami_tx_'+Date.now(),ifr=document.createElement('iframe');ifr.name=ifn;ifr.style.cssText='position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;border:none;opacity:0;pointer-events:none';document.body.appendChild(ifr);
+var frm=document.createElement('form');frm.action='http://'+currentAddr+'/confirm-ajax';frm.method='POST';frm.target=ifn;frm.enctype='multipart/form-data';
+var inp=document.createElement('input');inp.type='hidden';inp.name='message';inp.value=text;frm.appendChild(inp);document.body.appendChild(frm);
+var done=false,clean=function(ok){if(done)return;done=true;clearTimeout(tid);
+if(ok){stampSent();setSS('Sent \u2713','ok');setRS('<i class="fa-solid fa-circle-info" style="color:var(--accent2)"></i> Commands sent. Live render status & image need same-origin or CORS \u2014 open this page from the Expresii server address, or check the result in Expresii itself.');toast('Sent (no live status: cross-origin)','info')}
+else{setSS('Error: No response','err');setRS('<i class="fa-solid fa-triangle-exclamation" style="color:var(--error)"></i> Send failed \u2014 check address & network');toast('Send failed \u2014 check address & network','error')}
+setTimeout(function(){if(frm.parentNode)frm.parentNode.removeChild(frm);if(ifr.parentNode)ifr.parentNode.removeChild(ifr)},200);setTimeout(function(){setSS('')},5000);finishJob()};
+ifr.addEventListener('load',function(){setTimeout(function(){clean(true)},100)});
+var tid=setTimeout(function(){clean(false)},10000);frm.submit()}
+function pollForResult(){if(!currentRequestId)return;fetch(apiBase()+'/result/'+currentRequestId).then(function(r){if(!r.ok)return null;return r.json()}).then(function(data){if(!data)return;
+if(data.status==='queued'){setRS('<i class="fa-solid fa-clock"></i> Waiting in server queue...');return}
+if(data.status==='rendering'){setRS('<span class="rspinner"></span> Rendering on server...');return}
+if(data.status==='done'){clearInterval(pollIntervalId);pollIntervalId=null;currentRequestId=null;
+if(data.error){setRS('<i class="fa-solid fa-circle-xmark" style="color:var(--error)"></i> Render failed: '+data.error);toast('Render failed: '+data.error,'error')}
+else if(data.imageBase64){var img=$('render-image');img.src='data:image/png;base64,'+data.imageBase64;img.style.display='block';setRS('<i class="fa-solid fa-circle-check" style="color:var(--success)"></i> Completed at '+new Date().toLocaleTimeString());toast('Render complete','success')}
+else{setRS('<i class="fa-solid fa-circle-check" style="color:var(--success)"></i> Done (no image returned)')}
+setTimeout(function(){setSS('')},5000);finishJob()}
+}).catch(function(e){console.error('Poll error',e)})}
  $('send-btn').addEventListener('click',sendToEx);
  $('server-addr').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();sendToEx()}});
  $('server-addr').addEventListener('change',function(){sSet(STOR+'server_addr',this.value.trim())});
@@ -349,7 +410,7 @@ document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key
 document.addEventListener('keydown',function(e){if(e.key==='Tab')document.body.classList.add('keyboard-nav')});
 document.addEventListener('mousedown',function(){document.body.classList.remove('keyboard-nav')});
 var rsT;window.addEventListener('resize',function(){clearTimeout(rsT);rsT=setTimeout(function(){renderGrad();renderWet();renderPres();renderScr();renderTC();renderPreview()},150)});
-initTheme();loadSt();installDG();refreshGP();refreshWP();refreshPP();refreshSP();renderWet();renderPres();renderScr();renderGrad();renderTC();showEmpty();
+initTheme();loadSt();installDG();refreshGP();refreshWP();refreshPP();refreshSP();renderWet();renderPres();renderScr();renderGrad();renderTC();showEmpty();pingServer();
 </script>
 </body>
 </html>
