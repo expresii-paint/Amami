@@ -24,3 +24,5 @@ The sample horse SVG is from Clipasso (https://clipasso.github.io/clipasso). See
 
 ## Connecting with AI agent
 Teaching a computer to draw objects as simple abstract strokes is not easy. Ever since the Clipasso work came out in 2022, we would like to combine this with Expresii. Down the road, we hope to see AI agents draw/paint things via this interface. A [stroke file format description](./ExpresiiStrokeFileFormatDescription.txt) is put online. You can start creating skill files from the description for AI agents.
+
+We also maintain a [skill for AI agents](https://github.com/expresii-paint/expresii-brush) that drives Expresii Paint via its local HTTP API (port 9000). An AI agent can start using it to generate and send stroke commands, inspect results, and iterate on brush techniques.
