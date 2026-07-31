@@ -355,7 +355,7 @@ function setRS(html){$('render-status').innerHTML=html}
 function stampSent(){$('sent-time').innerHTML='<i class="fa-solid fa-paper-plane" style="color:var(--accent2)"></i> Sent at '+new Date().toLocaleTimeString()}
 /* --- Server connection status + system info (mirrors Expresii Command Console /info) --- */
 function shortenCpu(s){return s?s.replace(/\s+(w\/|with|@|Graphics|\d+-?Core).*/i,'').trim():''}
-function shortenGpu(s){return s?s.replace(/\bGeForce\s+/gi,'').replace(/(\b\d{4}[^\s]*)\s+Laptop\s+GPU/i,'$1m').replace(/\s+Graphics/gi,'').replace(/\s+/g,' ').trim():''}
+function shortenGpu(s){return s?s.replace(/\(TM\)\s*/gi,' ').replace(/\bGeForce\s+/gi,'').replace(/(\b\d{4}[^\s]*)\s+Laptop\s+GPU/i,'$1m').replace(/\s+Graphics/gi,'').replace(/\s+/g,' ').trim():''}
 function srvAddr(){var a=$('server-addr').value.trim();if(a&&a.indexOf(':')===-1)a+=':9000';return a}
 function infoBase(){var a=srvAddr();return(location.host&&a===location.host)?'':'http://'+a}
 function setConn(state,msg){var e=$('conn-status');e.className='conn-status '+state;e.innerHTML=msg}
