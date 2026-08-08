@@ -3,6 +3,16 @@
 # A single character for command, following by parameters separated by space 
 # Comments are lines with first character being '#'
 # 
+# ' for Title / filename. Format:
+# ' <Title>
+# Sets the name shown by Expresii for this stroke command set (and the default
+# filename when saving). The single-quote char is the command char; the text
+# after the single space is the title. Omit the line if no title is desired.
+# This line, if present, must come immediately after the '# Stroke File (...)'
+# comment and before any other command.
+# Example:
+# ' MyFirstDrawing
+# 
 # Commands:
 # 's' for Stroke Frames that defines the posture of the virtual brush. Format:
 # s x y z Tilt-Y Tilt-X Barrel-Rotation Pressure
